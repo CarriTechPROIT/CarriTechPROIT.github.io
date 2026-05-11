@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechPro Consultoría IT | Infraestructura · Redes · Cloud · Seguridad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & TOKENS ─────────────────────────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --ink:       #04080f;
+  --ink2:      #0a1020;
+  --panel:     #0d1628;
+  --rim:       #162240;
+  --rim2:      #1e3060;
+  --cyan:      #00e5ff;
+  --cyan-dim:  rgba(0,229,255,.12);
+  --cyan-glow: rgba(0,229,255,.25);
+  --lime:      #a3ff47;
+  --lime-dim:  rgba(163,255,71,.10);
+  --orange:    #ff6b35;
+  --text:      #d4e3f7;
+  --text-mid:  #7a9abf;
+  --text-low:  #344d6e;
+  --white:     #ffffff;
+  --r:         6px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* ── SCROLLBAR ──────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--ink); }
+::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 2px; }
+
+/* ── UTILITY ────────────────────────────────────────────────────────── */
+.container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+.tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--cyan);
+  background: var(--cyan-dim);
+  border: 1px solid var(--cyan-glow);
+  padding: 5px 14px; border-radius: 2px;
+}
+.tag::before { content:'//'; opacity:.5; }
+
+/* ── NOISE OVERLAY ──────────────────────────────────────────────────── */
+body::after {
+  content:'';
+  position: fixed; inset:0; pointer-events:none; z-index:999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity: .4;
+}
+
+/* ── NAV ────────────────────────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  border-bottom: 1px solid var(--rim);
+  background: rgba(4,8,15,.88);
+  backdrop-filter: blur(16px);
+  padding: 0 24px;
+}
+.nav-inner {
+  max-width: 1140px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem; letter-spacing: .08em;
+  color: var(--white);
+  text-decoration: none;
+}
+.nav-logo span { color: var(--cyan); }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  font-size: 13px; font-weight: 500; letter-spacing: .05em;
+  color: var(--text-mid); text-decoration: none;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--cyan); }
+.nav-cta {
+  background: var(--cyan); color: var(--ink) !important;
+  padding: 8px 20px; border-radius: var(--r);
+  font-weight: 700 !important; font-size: 13px !important;
+  transition: box-shadow .2s, transform .15s !important;
+}
+.nav-cta:hover {
+  box-shadow: 0 0 20px var(--cyan-glow), 0 0 40px var(--cyan-glow) !important;
+  transform: translateY(-1px);
+}
+
+/* ── HERO ───────────────────────────────────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 120px 24px 80px;
+  position: relative; overflow: hidden;
+}
+
+/* Diagonal grid */
+#hero::before {
+  content:'';
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(rgba(0,229,255,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  transform: skewY(-8deg) translateY(-10%);
+}
+
+/* Glow blob */
+#hero::after {
+  content:'';
+  position: absolute;
+  width: 800px; height: 800px;
+  background: radial-gradient(circle, rgba(0,229,255,.07) 0%, transparent 70%);
+  top: -200px; right: -200px;
+  pointer-events: none;
+}
+
+.hero-inner {
+  max-width: 1140px; margin: 0 auto; width: 100%;
+  position: relative; z-index: 1;
+  display: grid; grid-template-columns: 1fr 420px; gap: 60px; align-items: center;
+}
+
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 24px;
+}
+.hero-eyebrow-line { flex: none; width: 40px; height: 1px; background: var(--cyan); }
+
+.hero-h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3.5rem, 7vw, 6rem);
+  line-height: .95;
+  letter-spacing: .02em;
+  color: var(--white);
+  margin-bottom: 28px;
+}
+.hero-h1 .c { color: var(--cyan); }
+.hero-h1 .l { color: var(--lime); }
+
+.hero-desc {
+  font-size: 1.05rem; color: var(--text-mid);
+  max-width: 520px; line-height: 1.75; margin-bottom: 40px;
+}
+
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--cyan); color: var(--ink);
+  font-weight: 700; font-size: .9rem; letter-spacing: .04em;
+  padding: 14px 28px; border-radius: var(--r);
+  text-decoration: none; border: none; cursor: pointer;
+  transition: box-shadow .25s, transform .15s;
+}
+.btn-primary:hover {
+  box-shadow: 0 0 30px var(--cyan-glow), 0 0 60px var(--cyan-glow);
+  transform: translateY(-2px);
+}
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: transparent; color: var(--text);
+  font-weight: 600; font-size: .9rem;
+  padding: 14px 28px; border-radius: var(--r);
+  text-decoration: none;
+  border: 1px solid var(--rim2);
+  transition: border-color .2s, color .2s;
+}
+.btn-secondary:hover { border-color: var(--cyan); color: var(--cyan); }
+
+/* Hero stats card */
+.hero-stats-card {
+  background: var(--panel);
+  border: 1px solid var(--rim);
+  border-radius: 12px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-stats-card::before {
+  content:'';
+  position: absolute; top:0; left:0; right:0; height: 2px;
+  background: linear-gradient(90deg, var(--cyan), var(--lime));
+}
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.stat-item { }
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem; line-height: 1;
+  color: var(--cyan);
+}
+.stat-num.lime { color: var(--lime); }
+.stat-unit { font-size: .75rem; color: var(--text-low); text-transform: uppercase; letter-spacing: .1em; }
+.stat-label { font-size: .8rem; color: var(--text-mid); margin-top: 2px; }
+
+.status-bar {
+  margin-top: 28px; padding-top: 20px;
+  border-top: 1px solid var(--rim);
+  display: flex; align-items: center; gap: 10px;
+}
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--lime); animation: blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+.status-text { font-size: .8rem; color: var(--text-mid); }
+
+/* ── TICKER ─────────────────────────────────────────────────────────── */
+.ticker-wrap {
+  background: var(--ink2);
+  border-top: 1px solid var(--rim);
+  border-bottom: 1px solid var(--rim);
+  padding: 12px 0;
+  overflow: hidden;
+  position: relative;
+}
+.ticker-track {
+  display: flex; gap: 0;
+  animation: ticker 25s linear infinite;
+  white-space: nowrap;
+}
+@keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+.ticker-item {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 0 32px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; color: var(--text-low);
+  letter-spacing: .05em; text-transform: uppercase;
+}
+.ticker-item span { color: var(--cyan); }
+
+/* ── SERVICES ───────────────────────────────────────────────────────── */
+#servicios { padding: 100px 0; }
+
+.section-head { margin-bottom: 60px; }
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  color: var(--white); line-height: 1; margin: 16px 0 16px;
+  letter-spacing: .02em;
+}
+.section-sub { font-size: 1rem; color: var(--text-mid); max-width: 540px; }
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: var(--rim);
+  border: 1px solid var(--rim);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.service-card {
+  background: var(--panel);
+  padding: 36px 28px;
+  transition: background .2s;
+  position: relative;
+  overflow: hidden;
+}
+.service-card::after {
+  content:'';
+  position: absolute; bottom:0; left:0; right:0; height:0;
+  background: linear-gradient(0deg, var(--cyan-dim), transparent);
+  transition: height .3s;
+}
+.service-card:hover { background: var(--ink2); }
+.service-card:hover::after { height: 100%; }
+
+.service-icon {
+  font-size: 2rem; margin-bottom: 16px;
+  display: block;
+}
+.service-name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.05rem; font-weight: 700;
+  color: var(--white); margin-bottom: 10px;
+}
+.service-desc {
+  font-size: .85rem; color: var(--text-mid);
+  line-height: 1.65; margin-bottom: 20px;
+}
+.service-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: .8rem; color: var(--cyan);
+  border-top: 1px solid var(--rim2);
+  padding-top: 14px;
+}
+
+/* ── PACKAGES ───────────────────────────────────────────────────────── */
+#paquetes { padding: 100px 0; background: var(--ink2); border-top: 1px solid var(--rim); border-bottom: 1px solid var(--rim); }
+
+.pkg-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+
+.pkg-card {
+  background: var(--panel);
+  border: 1px solid var(--rim);
+  border-radius: 10px;
+  padding: 36px 28px;
+  position: relative;
+  transition: transform .2s, border-color .2s;
+}
+.pkg-card:hover { transform: translateY(-4px); border-color: var(--rim2); }
+
+.pkg-card.featured {
+  border-color: var(--cyan);
+  background: linear-gradient(160deg, rgba(0,229,255,.06) 0%, var(--panel) 60%);
+}
+.pkg-card.featured::before {
+  content: 'MÁS POPULAR';
+  position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+  background: var(--cyan); color: var(--ink);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; font-weight: 700; letter-spacing: .12em;
+  padding: 4px 16px; border-radius: 0 0 6px 6px;
+}
+
+.pkg-tier {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; text-transform: uppercase; letter-spacing: .15em;
+  color: var(--text-low); margin-bottom: 8px;
+}
+.pkg-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem; color: var(--white); letter-spacing: .05em; margin-bottom: 4px;
+}
+.pkg-price {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 3rem; line-height: 1; color: var(--cyan);
+  margin: 16px 0 4px;
+}
+.pkg-price sub { font-size: 1rem; font-family: 'Outfit', sans-serif; color: var(--text-mid); }
+.pkg-period { font-size: .8rem; color: var(--text-mid); margin-bottom: 24px; }
+
+.pkg-features { list-style: none; margin-bottom: 28px; }
+.pkg-features li {
+  font-size: .85rem; color: var(--text-mid);
+  padding: 7px 0;
+  border-bottom: 1px solid var(--rim);
+  display: flex; align-items: center; gap: 10px;
+}
+.pkg-features li::before { content:'→'; color: var(--cyan); font-family: monospace; }
+.pkg-features li.no { color: var(--text-low); }
+.pkg-features li.no::before { content:'—'; color: var(--text-low); }
+
+/* ── PROCESS ────────────────────────────────────────────────────────── */
+#proceso { padding: 100px 0; }
+
+.process-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 0; position: relative; }
+.process-grid::before {
+  content:'';
+  position: absolute; top: 32px; left: 8.33%; right: 8.33%; height: 1px;
+  background: var(--rim2);
+}
+
+.step-item { text-align: center; padding: 0 12px; }
+.step-num {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--panel); border: 1px solid var(--rim2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; color: var(--cyan);
+  margin: 0 auto 20px;
+  position: relative; z-index: 1;
+  transition: border-color .2s, box-shadow .2s;
+}
+.step-item:hover .step-num {
+  border-color: var(--cyan);
+  box-shadow: 0 0 20px var(--cyan-glow);
+}
+.step-name { font-weight: 600; font-size: .85rem; color: var(--text); margin-bottom: 6px; }
+.step-desc { font-size: .78rem; color: var(--text-mid); line-height: 1.5; }
+
+/* ── TESTIMONIALS ───────────────────────────────────────────────────── */
+#testimonios { padding: 100px 0; background: var(--ink2); border-top: 1px solid var(--rim); border-bottom: 1px solid var(--rim); }
+
+.testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+.testi-card {
+  background: var(--panel);
+  border: 1px solid var(--rim);
+  border-radius: 10px;
+  padding: 28px;
+  transition: border-color .2s;
+}
+.testi-card:hover { border-color: var(--rim2); }
+.testi-quote {
+  font-size: .9rem; color: var(--text-mid); line-height: 1.75;
+  margin-bottom: 20px; font-style: italic;
+}
+.testi-quote::before { content: '"'; font-size: 2rem; color: var(--cyan); line-height: .5; display: block; margin-bottom: 8px; font-style: normal; }
+.testi-author { display: flex; align-items: center; gap: 12px; }
+.testi-avatar {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--rim2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+}
+.testi-name { font-weight: 600; font-size: .85rem; color: var(--text); }
+.testi-role { font-size: .78rem; color: var(--text-low); }
+.stars { color: #fbbf24; font-size: .75rem; margin-bottom: 2px; }
+
+/* ── TOOLS ──────────────────────────────────────────────────────────── */
+#herramientas { padding: 80px 0; }
+
+.tools-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; text-transform: uppercase; letter-spacing: .15em;
+  color: var(--text-low); text-align: center; margin-bottom: 32px;
+}
+.tools-row {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+}
+.tool-pill {
+  background: var(--panel); border: 1px solid var(--rim);
+  border-radius: 4px; padding: 8px 18px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; color: var(--text-mid);
+  transition: border-color .2s, color .2s;
+}
+.tool-pill:hover { border-color: var(--cyan); color: var(--cyan); }
+
+/* ── CTA SECTION ────────────────────────────────────────────────────── */
+#contacto {
+  padding: 100px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+#contacto::before {
+  content:'';
+  position: absolute;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(0,229,255,.06) 0%, transparent 70%);
+  top: 50%; left: 50%; transform: translate(-50%,-50%);
+  pointer-events: none;
+}
+
+.cta-big {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3rem,7vw,5.5rem);
+  color: var(--white); line-height: .95;
+  letter-spacing: .02em; margin: 20px 0 28px;
+}
+.cta-big em { font-style: normal; color: var(--cyan); }
+
+.contact-form {
+  max-width: 560px; margin: 0 auto;
+  display: grid; gap: 14px;
+}
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-input, .form-select, .form-textarea {
+  background: var(--panel); border: 1px solid var(--rim);
+  border-radius: var(--r); color: var(--text);
+  font-family: 'Outfit', sans-serif; font-size: .9rem;
+  padding: 12px 16px;
+  transition: border-color .2s, box-shadow .2s;
+  width: 100%;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px var(--cyan-dim);
+}
+.form-textarea { resize: vertical; min-height: 120px; }
+.form-select option { background: var(--panel); }
+
+/* ── FOOTER ─────────────────────────────────────────────────────────── */
+footer {
+  background: var(--ink2);
+  border-top: 1px solid var(--rim);
+  padding: 48px 24px;
+}
+.footer-inner {
+  max-width: 1140px; margin: 0 auto;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px;
+}
+.footer-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem; color: var(--white); margin-bottom: 12px;
+}
+.footer-logo span { color: var(--cyan); }
+.footer-desc { font-size: .85rem; color: var(--text-mid); line-height: 1.7; }
+.footer-col-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; text-transform: uppercase; letter-spacing: .12em;
+  color: var(--text-low); margin-bottom: 16px;
+}
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 8px; }
+.footer-links a { font-size: .85rem; color: var(--text-mid); text-decoration: none; transition: color .2s; }
+.footer-links a:hover { color: var(--cyan); }
+.footer-bottom {
+  max-width: 1140px; margin: 32px auto 0;
+  padding-top: 20px; border-top: 1px solid var(--rim);
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px;
+}
+.footer-copy { font-size: .78rem; color: var(--text-low); font-family: 'JetBrains Mono', monospace; }
+
+/* ── ANIMATIONS ─────────────────────────────────────────────────────── */
+.fade-in {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ─────────────────────────────────────────────────────── */
+@media(max-width:900px) {
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-stats-card { display: none; }
+  .services-grid { grid-template-columns: 1fr 1fr; }
+  .pkg-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+  .process-grid { grid-template-columns: 1fr 1fr 1fr; gap: 28px; }
+  .process-grid::before { display: none; }
+  .testi-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .nav-links { display: none; }
+}
+@media(max-width:600px) {
+  .services-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Tech<span>PRO</span></a>
+    <ul class="nav-links">
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#paquetes">Paquetes</a></li>
+      <li><a href="#proceso">Proceso</a></li>
+      <li><a href="#testimonios">Clientes</a></li>
+      <li><a href="#contacto" class="nav-cta">Contactar</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-line"></div>
+        <span class="tag">Consultoría IT Profesional</span>
+      </div>
+      <h1 class="hero-h1">
+        INFRAESTRUCTURA<br>
+        <span class="c">IT</span> QUE<br>
+        <span class="l">FUNCIONA</span>
+      </h1>
+      <p class="hero-desc">
+        23 años de experiencia real en redes, servidores, seguridad y cloud.
+        Soluciones remotas para empresas que necesitan resultados, no excusas.
+        Disponible en todo Latinoamérica y España.
+      </p>
+      <div class="hero-btns">
+        <a href="#contacto" class="btn-primary">
+          <span>▶</span> Solicitar Consulta Gratis
+        </a>
+        <a href="#servicios" class="btn-secondary">
+          Ver Servicios →
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-stats-card fade-in">
+      <div class="stat-grid">
+        <div class="stat-item">
+          <div class="stat-num">23</div>
+          <div class="stat-unit">años</div>
+          <div class="stat-label">Experiencia en campo</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num lime">200+</div>
+          <div class="stat-unit">proyectos</div>
+          <div class="stat-label">Completados exitosamente</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">98<small style="font-size:1.5rem">%</small></div>
+          <div class="stat-unit">satisfacción</div>
+          <div class="stat-label">Clientes satisfechos</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num lime">24/7</div>
+          <div class="stat-unit">soporte</div>
+          <div class="stat-label">En planes Enterprise</div>
+        </div>
+      </div>
+      <div class="status-bar">
+        <div class="status-dot"></div>
+        <span class="status-text">Actualmente disponible para nuevos proyectos</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="ticker-item">Cisco CCNP <span>✓</span></span>
+    <span class="ticker-item">VMware vSphere <span>✓</span></span>
+    <span class="ticker-item">AWS Solutions <span>✓</span></span>
+    <span class="ticker-item">Azure Administration <span>✓</span></span>
+    <span class="ticker-item">Linux RHEL/Ubuntu <span>✓</span></span>
+    <span class="ticker-item">Kubernetes / Docker <span>✓</span></span>
+    <span class="ticker-item">Fortinet NSE <span>✓</span></span>
+    <span class="ticker-item">Palo Alto <span>✓</span></span>
+    <span class="ticker-item">CompTIA Security+ <span>✓</span></span>
+    <span class="ticker-item">ITIL v4 <span>✓</span></span>
+    <span class="ticker-item">MikroTik <span>✓</span></span>
+    <span class="ticker-item">Zabbix / PRTG <span>✓</span></span>
+    <!-- duplicate for infinite loop -->
+    <span class="ticker-item">Cisco CCNP <span>✓</span></span>
+    <span class="ticker-item">VMware vSphere <span>✓</span></span>
+    <span class="ticker-item">AWS Solutions <span>✓</span></span>
+    <span class="ticker-item">Azure Administration <span>✓</span></span>
+    <span class="ticker-item">Linux RHEL/Ubuntu <span>✓</span></span>
+    <span class="ticker-item">Kubernetes / Docker <span>✓</span></span>
+    <span class="ticker-item">Fortinet NSE <span>✓</span></span>
+    <span class="ticker-item">Palo Alto <span>✓</span></span>
+    <span class="ticker-item">CompTIA Security+ <span>✓</span></span>
+    <span class="ticker-item">ITIL v4 <span>✓</span></span>
+    <span class="ticker-item">MikroTik <span>✓</span></span>
+    <span class="ticker-item">Zabbix / PRTG <span>✓</span></span>
+  </div>
+</div>
+
+<!-- SERVICIOS -->
+<section id="servicios">
+  <div class="container">
+    <div class="section-head fade-in">
+      <span class="tag">Áreas de Especialización</span>
+      <h2 class="section-title">SERVICIOS REMOTOS<br>DE ALTO IMPACTO</h2>
+      <p class="section-sub">Todo lo que necesita su empresa IT, ejecutado de forma remota con los mismos resultados que un especialista en sitio.</p>
+    </div>
+
+    <div class="services-grid fade-in">
+
+      <div class="service-card">
+        <span class="service-icon">🌐</span>
+        <div class="service-name">Redes & Infraestructura</div>
+        <div class="service-desc">Diseño, configuración y optimización de redes LAN/WAN, VLANs, SD-WAN, firewalls y VPN empresarial. Cisco, MikroTik, Fortinet y más.</div>
+        <div class="service-price">Desde $200/equipo · Auditorías desde $600</div>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">🖥️</span>
+        <div class="service-name">Servidores & Virtualización</div>
+        <div class="service-desc">Windows Server, Linux, VMware vSphere, Hyper-V, Proxmox. Instalación, migración, clustering y administración mensual.</div>
+        <div class="service-price">Desde $350/servidor · Admin $280/mes</div>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">☁️</span>
+        <div class="service-name">Cloud & Migración</div>
+        <div class="service-desc">Migraciones a AWS, Azure y GCP. Arquitecturas híbridas, optimización de costos cloud (FinOps) y gestión mensual de infraestructura cloud.</div>
+        <div class="service-price">Migraciones desde $1,500 · Gestión desde $500/mes</div>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">🔐</span>
+        <div class="service-name">Ciberseguridad</div>
+        <div class="service-desc">Auditorías de seguridad, pentesting, implementación de firewalls, SIEM, EDR/XDR y políticas de Zero Trust para proteger su empresa.</div>
+        <div class="service-price">Auditorías desde $800 · SOC desde $400/mes</div>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">🗄️</span>
+        <div class="service-name">Storage & Backup</div>
+        <div class="service-desc">NAS/SAN empresarial, estrategias de backup 3-2-1, Veeam, Acronis y planes de Disaster Recovery con RTO/RPO definidos.</div>
+        <div class="service-price">Implementación desde $600 · Plan DR desde $1,000</div>
+      </div>
+
+      <div class="service-card">
+        <span class="service-icon">⚙️</span>
+        <div class="service-name">Soporte IT Administrado</div>
+        <div class="service-desc">Su departamento IT externo. Gestión proactiva, parches, monitoreo, soporte a usuarios y reportes mensuales. Sin costo de contratar staff interno.</div>
+        <div class="service-price">Planes desde $300/mes · SLA garantizado</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PAQUETES -->
+<section id="paquetes">
+  <div class="container">
+    <div class="section-head fade-in">
+      <span class="tag">Planes MSP</span>
+      <h2 class="section-title">ELIGE TU PLAN<br>DE SOPORTE</h2>
+      <p class="section-sub">Infraestructura administrada mensualmente. Precio fijo, sin sorpresas, sin contratar personal IT interno.</p>
+    </div>
+
+    <div class="pkg-grid fade-in">
+
+      <div class="pkg-card">
+        <div class="pkg-tier">Plan 01</div>
+        <div class="pkg-name">BÁSICO</div>
+        <div class="pkg-price">$400<sub>/mes</sub></div>
+        <div class="pkg-period">Para empresas de 5–25 empleados</div>
+        <ul class="pkg-features">
+          <li>Hasta 5 servidores administrados</li>
+          <li>Monitoreo en horario laboral</li>
+          <li>Parches y actualizaciones mensuales</li>
+          <li>Soporte remoto 10h/mes incluidas</li>
+          <li>Backup verificado mensualmente</li>
+          <li>Informe mensual básico</li>
+          <li class="no">Respuesta 24/7</li>
+          <li class="no">Seguridad avanzada EDR</li>
+        </ul>
+        <a href="#contacto" class="btn-secondary" style="width:100%;justify-content:center;">Contratar →</a>
+      </div>
+
+      <div class="pkg-card featured">
+        <div class="pkg-tier">Plan 02</div>
+        <div class="pkg-name">PROFESIONAL</div>
+        <div class="pkg-price">$1,200<sub>/mes</sub></div>
+        <div class="pkg-period">Para empresas de 25–100 empleados</div>
+        <ul class="pkg-features">
+          <li>Hasta 20 servidores administrados</li>
+          <li>Monitoreo 24/5 con alertas</li>
+          <li>Parches y actualizaciones quincenales</li>
+          <li>Soporte remoto 30h/mes incluidas</li>
+          <li>Backup + verificación quincenal</li>
+          <li>Gestión cloud incluida</li>
+          <li>Firewall + seguridad básica</li>
+          <li>Informe mensual ejecutivo</li>
+        </ul>
+        <a href="#contacto" class="btn-primary" style="width:100%;justify-content:center;">Contratar →</a>
+      </div>
+
+      <div class="pkg-card">
+        <div class="pkg-tier">Plan 03</div>
+        <div class="pkg-name">ENTERPRISE</div>
+        <div class="pkg-price">$3,500<sub>/mes</sub></div>
+        <div class="pkg-period">Para empresas de 100+ empleados</div>
+        <ul class="pkg-features">
+          <li>Servidores ilimitados</li>
+          <li>Monitoreo y soporte 24/7</li>
+          <li>Parches semanales gestionados</li>
+          <li>80 horas/mes incluidas</li>
+          <li>Backup completo + DR plan</li>
+          <li>EDR + SIEM + SOC básico</li>
+          <li>Gestión cloud multi-cuenta</li>
+          <li>Reunión semanal de revisión</li>
+        </ul>
+        <a href="#contacto" class="btn-secondary" style="width:100%;justify-content:center;">Contratar →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROCESO -->
+<section id="proceso">
+  <div class="container">
+    <div class="section-head fade-in" style="text-align:center;">
+      <span class="tag">Metodología</span>
+      <h2 class="section-title">ASÍ TRABAJAMOS</h2>
+    </div>
+
+    <div class="process-grid fade-in">
+      <div class="step-item">
+        <div class="step-num">01</div>
+        <div class="step-name">Consulta</div>
+        <div class="step-desc">Reunión gratuita para entender su entorno y objetivos IT</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">02</div>
+        <div class="step-name">Diagnóstico</div>
+        <div class="step-desc">Assessment de infraestructura actual e identificación de riesgos</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">03</div>
+        <div class="step-name">Propuesta</div>
+        <div class="step-desc">Plan técnico y económico detallado en 48 horas</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">04</div>
+        <div class="step-name">Ejecución</div>
+        <div class="step-desc">Implementación con comunicación constante y entregables</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">05</div>
+        <div class="step-name">Documentación</div>
+        <div class="step-desc">Entrega de manuales técnicos y runbooks operativos</div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">06</div>
+        <div class="step-name">Soporte</div>
+        <div class="step-desc">Acompañamiento post-proyecto con garantía de 30 días</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section id="testimonios">
+  <div class="container">
+    <div class="section-head fade-in" style="text-align:center;">
+      <span class="tag">Clientes</span>
+      <h2 class="section-title">LO QUE DICEN<br>NUESTROS CLIENTES</h2>
+    </div>
+    <div class="testi-grid fade-in">
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-quote">Migró toda nuestra infraestructura a Azure en tiempo récord y sin interrupciones. La documentación entregada es impecable. Ahorramos 35% en costos de IT el primer mes.</div>
+        <div class="testi-author">
+          <div class="testi-avatar">🏢</div>
+          <div>
+            <div class="testi-name">Carlos Mendoza</div>
+            <div class="testi-role">CEO · Distribuidora Regional S.A.</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-quote">Detectó vulnerabilidades críticas en nuestra red que llevaban meses sin verse. El informe de seguridad fue tan completo que lo presentamos al directorio. Altamente recomendado.</div>
+        <div class="testi-author">
+          <div class="testi-avatar">🏥</div>
+          <div>
+            <div class="testi-name">María Elena Rojas</div>
+            <div class="testi-role">CTO · Clínica Santa Ana</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="stars">★★★★★</div>
+        <div class="testi-quote">Llevamos 14 meses con el plan Profesional. Cero interrupciones, respuesta inmediata y siempre proactivo. Es como tener un IT Manager senior a fracción del costo.</div>
+        <div class="testi-author">
+          <div class="testi-avatar">🏬</div>
+          <div>
+            <div class="testi-name">Roberto Funes</div>
+            <div class="testi-role">Director · Logística Express LATAM</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HERRAMIENTAS -->
+<section id="herramientas">
+  <div class="container">
+    <div class="tools-label">Tecnologías y plataformas certificadas</div>
+    <div class="tools-row">
+      <div class="tool-pill">Cisco IOS/NX-OS</div>
+      <div class="tool-pill">MikroTik RouterOS</div>
+      <div class="tool-pill">Fortinet FortiGate</div>
+      <div class="tool-pill">Palo Alto PAN-OS</div>
+      <div class="tool-pill">pfSense / OPNsense</div>
+      <div class="tool-pill">VMware vSphere</div>
+      <div class="tool-pill">Proxmox VE</div>
+      <div class="tool-pill">Hyper-V</div>
+      <div class="tool-pill">AWS EC2 / S3 / RDS</div>
+      <div class="tool-pill">Azure VM / AAD</div>
+      <div class="tool-pill">Google Cloud</div>
+      <div class="tool-pill">Terraform</div>
+      <div class="tool-pill">Ansible</div>
+      <div class="tool-pill">Docker / Kubernetes</div>
+      <div class="tool-pill">Windows Server</div>
+      <div class="tool-pill">Ubuntu / RHEL / CentOS</div>
+      <div class="tool-pill">Active Directory</div>
+      <div class="tool-pill">Microsoft 365</div>
+      <div class="tool-pill">Zabbix / PRTG</div>
+      <div class="tool-pill">Grafana / Prometheus</div>
+      <div class="tool-pill">Veeam B&R</div>
+      <div class="tool-pill">Acronis Cyber</div>
+      <div class="tool-pill">Wazuh / Splunk</div>
+      <div class="tool-pill">NetApp / Synology</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / CONTACTO -->
+<section id="contacto">
+  <div class="container" style="position:relative;z-index:1;">
+    <div class="fade-in">
+      <span class="tag">Consulta Gratuita</span>
+      <h2 class="cta-big">
+        ¿LISTO PARA<br>
+        OPTIMIZAR SU<br>
+        <em>INFRAESTRUCTURA?</em>
+      </h2>
+      <p style="color:var(--text-mid);margin-bottom:36px;font-size:1rem;">Primera consulta gratuita de 30 minutos. Sin compromisos. Respuesta en menos de 24 horas.</p>
+    </div>
+    <div class="contact-form fade-in">
+      <div class="form-row">
+        <input class="form-input" type="text" placeholder="Nombre completo">
+        <input class="form-input" type="email" placeholder="Email empresarial">
+      </div>
+      <div class="form-row">
+        <input class="form-input" type="text" placeholder="Empresa / Organización">
+        <input class="form-input" type="tel" placeholder="Teléfono / WhatsApp">
+      </div>
+      <select class="form-select">
+        <option value="">— Servicio de interés —</option>
+        <option>Soporte IT Administrado (MSP)</option>
+        <option>Auditoría de Seguridad</option>
+        <option>Migración a la Nube</option>
+        <option>Redes y Networking</option>
+        <option>Servidores y Virtualización</option>
+        <option>Consultoría / Proyecto Puntual</option>
+        <option>Otro</option>
+      </select>
+      <textarea class="form-textarea" placeholder="Describa brevemente su situación o necesidad IT..."></textarea>
+      <button class="btn-primary" type="button" style="width:100%;justify-content:center;font-size:1rem;padding:16px;">
+        <span>▶</span> ENVIAR SOLICITUD GRATUITA
+      </button>
+      <p style="font-size:.78rem;color:var(--text-low);text-align:center;font-family:'JetBrains Mono',monospace;">
+        // Respuesta garantizada en &lt; 24h · Sin spam · Sin compromisos
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Tech<span>PRO</span></div>
+      <p class="footer-desc">Consultoría IT especializada con 23 años de experiencia real en infraestructura, redes, servidores, cloud y ciberseguridad. Atendemos toda Latinoamérica y España de forma remota.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Servicios</div>
+      <ul class="footer-links">
+        <li><a href="#">Soporte MSP</a></li>
+        <li><a href="#">Migración Cloud</a></li>
+        <li><a href="#">Ciberseguridad</a></li>
+        <li><a href="#">Redes</a></li>
+        <li><a href="#">Servidores</a></li>
+        <li><a href="#">Consultoría</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Recursos</div>
+      <ul class="footer-links">
+        <li><a href="#">Blog Técnico</a></li>
+        <li><a href="#">Guías IT</a></li>
+        <li><a href="#">Casos de Éxito</a></li>
+        <li><a href="#">Templates</a></li>
+        <li><a href="#">Cursos</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Contacto</div>
+      <ul class="footer-links">
+        <li><a href="#">📧 info@techproit.com</a></li>
+        <li><a href="#">💬 WhatsApp Business</a></li>
+        <li><a href="#">🔗 LinkedIn</a></li>
+        <li><a href="#">📅 Agendar Llamada</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 TechPRO Consultoría IT — Todos los derechos reservados</span>
+    <span class="footer-copy">Disponible en: Venezuela · Colombia · México · España · Argentina · +</span>
+  </div>
+</footer>
+
+<script>
+// Fade-in on scroll
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+// Nav active link
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if(window.scrollY >= s.offsetTop - 100) current = s.id; });
+  navLinks.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#'+current ? 'var(--cyan)' : '';
+  });
+});
+
+// Form submit
+document.querySelector('.btn-primary[type=button]').addEventListener('click', function() {
+  const inputs = document.querySelectorAll('.form-input, .form-textarea');
+  let valid = true;
+  inputs.forEach(i => { if(!i.value.trim()) { i.style.borderColor='var(--orange)'; valid=false; } else i.style.borderColor=''; });
+  if(valid) {
+    this.textContent = '✓ SOLICITUD ENVIADA — TE CONTACTAREMOS EN 24H';
+    this.style.background = 'var(--lime)';
+    this.style.cursor = 'default';
+  }
+});
+</script>
+</body>
+</html>
